@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Luyện Ngữ Pháp Hoa Dũng</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --sub:#6b7280;
+  --brand:#4f6df5; --brand-dark:#3952c4; --green:#1ea672; --green-bg:#e8f8f1;
+  --red:#e5484d; --red-bg:#fdecec; --amber:#f5a623; --line:#e6e8f0; --radius:16px;
+  --pill-bg:#1f2430; --pill-fg:#ffffff;
+  --chip-bg:#eef1fd; --chip-ink:#2b2f55;
+  --tip-bg:#fff7e6; --tip-line:#ffe3a3; --tip-ink:#8a6200;
+  --ghost-bg:#eef0f6; --ghost-ink:#333333;
+  --blank-bg:#f3f5ff; --blank-focus-bg:#e9edff; --blank-ink:#1f2430;
+  --mark-bg:#fff1d6; --mark-ink:#b35900;
+  --formula-bg:#eef1fd; --formula-line:#4f6df5;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171f; --card:#1d2029; --ink:#eceef3; --sub:#9aa0b0;
+    --brand:#7c93ff; --brand-dark:#aebcff; --green:#33c88a; --green-bg:#133225;
+    --red:#ff6b6e; --red-bg:#3a1a1b; --amber:#f5b94a; --line:#2b2f3b;
+    --chip-bg:#262b45; --chip-ink:#c7cdfa;
+    --tip-bg:#3a2f12; --tip-line:#5c4a1a; --tip-ink:#e8c468;
+    --ghost-bg:#262a36; --ghost-ink:#dfe2ec;
+    --mark-bg:#4a3414; --mark-ink:#ffcf7a;
+    --formula-bg:#20264a; --formula-line:#7c93ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171f; --card:#1d2029; --ink:#eceef3; --sub:#9aa0b0;
+  --brand:#7c93ff; --brand-dark:#aebcff; --green:#33c88a; --green-bg:#133225;
+  --red:#ff6b6e; --red-bg:#3a1a1b; --amber:#f5b94a; --line:#2b2f3b;
+  --chip-bg:#262b45; --chip-ink:#c7cdfa;
+  --tip-bg:#3a2f12; --tip-line:#5c4a1a; --tip-ink:#e8c468;
+  --ghost-bg:#262a36; --ghost-ink:#dfe2ec;
+  --mark-bg:#4a3414; --mark-ink:#ffcf7a;
+  --formula-bg:#20264a; --formula-line:#7c93ff;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+body{padding-bottom:40px; min-height:100vh;}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px;}
+header.top{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;
+  padding:18px 16px 22px;border-radius:0 0 20px 20px;}
+header.top .title{font-size:19px;font-weight:700;}
+header.top .sub{font-size:13px;opacity:.85;margin-top:2px;}
+.backbar{display:flex;align-items:center;gap:8px;padding:14px 0 6px;}
+.backbtn{background:none;border:none;color:var(--brand-dark);font-size:14px;font-weight:600;
+  cursor:pointer;padding:6px 4px;display:flex;align-items:center;gap:4px;}
+.searchbox{margin-top:14px;background:#fff;border-radius:14px;padding:10px 14px;display:flex;
+  align-items:center;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.searchbox input{border:none;outline:none;flex:1;font-size:15px;color:var(--ink);background:transparent;}
+.searchbox svg{flex-shrink:0;color:var(--sub);}
+.stubox{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
+.stubox-h{font-size:12px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px;}
+.stubox-row{display:flex;gap:8px;}
+.stuinput{flex:2;border:1.5px solid var(--line);background:var(--blank-bg);color:var(--blank-ink);border-radius:10px;
+  padding:9px 11px;font-size:14px;font-family:inherit;min-width:0;}
+.stuinput-lop{flex:1;}
+.stuinput:focus{outline:none;border-color:var(--brand);background:var(--blank-focus-bg);}
+.stubox-note{font-size:11.5px;color:var(--sub);margin-top:7px;}
+.sendline{font-size:12.5px;color:var(--sub);margin-top:10px;}
+.sendline a{color:var(--brand-dark);font-weight:700;text-decoration:none;}
+.tabs{display:flex;gap:6px;margin:14px 0 4px;}
+.tabbtn{flex:1;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 6px;
+  font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;}
+.tabbtn.active{background:var(--brand);border-color:var(--brand);color:#fff;}
+.cardgrid{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+.unitcard{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:0 1px 4px rgba(20,20,40,.06);
+  border:1px solid var(--line);display:flex;align-items:center;gap:12px;cursor:pointer;}
+.unitcard:active{transform:scale(.99);}
+.unitcard .uc-main{flex:1;min-width:0;}
+.unitcard .uc-book{font-size:11px;color:var(--brand-dark);font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.unitcard .uc-title{font-size:15.5px;font-weight:700;margin-top:2px;}
+.unitcard .uc-meta{font-size:12.5px;color:var(--sub);margin-top:3px;}
+.starbtn{border:none;background:none;cursor:pointer;padding:6px;flex-shrink:0;color:#cbd0dc;}
+.starbtn.on{color:var(--amber);}
+.empty{text-align:center;color:var(--sub);padding:50px 10px;font-size:14px;}
+.sectitle{font-size:13px;font-weight:700;color:var(--sub);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.3px;}
+
+.unithead{padding:16px 0 4px;}
+.unithead .uh-book{font-size:12px;color:var(--brand-dark);font-weight:700;text-transform:uppercase;}
+.unithead h1{font-size:21px;margin:4px 0 6px;}
+.unithead .uh-can{font-size:13.5px;color:var(--chip-ink);background:var(--chip-bg);border-radius:10px;padding:8px 12px;}
+.inner-tabs{display:flex;gap:6px;margin:16px 0;}
+.gblock{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+.gblock h3{font-size:16.5px;margin:0 0 10px;display:flex;align-items:center;gap:8px;color:var(--brand-dark);font-weight:800;}
+.gblock p{font-size:14.5px;line-height:1.7;margin:8px 0;color:var(--ink);}
+.gblock p b{font-weight:800;}
+.gblock .formula{margin:10px 0;padding:13px 15px;background:var(--formula-bg);border-left:4px solid var(--formula-line);
+  border-radius:10px;font-size:17px;font-weight:800;line-height:1.65;color:var(--ink);letter-spacing:.2px;}
+.gblock .formula .ex{display:block;margin-top:6px;font-weight:600;font-style:italic;font-size:14.5px;color:var(--sub);}
+.hl{color:var(--mark-ink);font-weight:800;background:var(--mark-bg);padding:1px 5px;border-radius:5px;}
+.gblock .gtip{margin-top:10px;background:var(--tip-bg);border:1px solid var(--tip-line);border-radius:10px;padding:10px 13px;
+  font-size:13.5px;font-weight:600;color:var(--tip-ink);}
+.acticon{width:26px;height:26px;border-radius:8px;background:var(--chip-bg);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;color:var(--brand-dark);}
+
+.actcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:9px;
+  display:flex;align-items:center;gap:11px;cursor:pointer;}
+.actcard .ac-title{font-size:14.5px;font-weight:600;flex:1;}
+.stars{display:flex;gap:2px;}
+.stars svg{width:15px;height:15px;}
+.st-on{color:var(--amber);} .st-off{color:#dfe2ec;}
+
+.actrun{padding-top:6px;}
+.actinstr{background:var(--chip-bg);border-radius:12px;padding:11px 13px;font-size:13.5px;color:var(--chip-ink);margin-bottom:14px;}
+.actinstr b{color:var(--brand-dark);}
+.qrow{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:10px;}
+.qrow .qn{font-size:12px;color:var(--sub);font-weight:700;margin-bottom:5px;}
+.qtext{font-size:15px;line-height:1.7;}
+.blank{display:inline-block;border:none;border-bottom:2px solid var(--brand);background:var(--blank-bg);
+  border-radius:6px;padding:3px 7px;font-size:14.5px;min-width:70px;text-align:center;font-family:inherit;color:var(--blank-ink);}
+.blank:focus{outline:none;border-bottom-color:var(--brand-dark);background:var(--blank-focus-bg);}
+.blank.ok{background:var(--green-bg);border-bottom-color:var(--green);color:var(--green);}
+.blank.bad{background:var(--red-bg);border-bottom-color:var(--red);color:var(--red);}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px;}
+.optbtn{border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:8px 13px;font-size:14px;
+  cursor:pointer;color:var(--ink);}
+.optbtn.sel{border-color:var(--brand);background:var(--chip-bg);font-weight:600;}
+.optbtn.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:600;}
+.optbtn.bad{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+.optbtn[disabled]{cursor:default;}
+
+.feedback{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);
+  margin:16px -16px 0;padding:14px 16px;box-shadow:0 -4px 14px rgba(0,0,0,.06);}
+.feedback.ok{background:var(--green-bg);}
+.feedback .fb-line{font-size:13.5px;margin-bottom:8px;}
+.feedback .fb-line b{color:var(--brand-dark);}
+.feedback.ok .fb-line b{color:var(--green);}
+.btnrow{display:flex;gap:10px;}
+.btn{flex:1;border:none;border-radius:12px;padding:12px;font-size:14.5px;font-weight:700;cursor:pointer;}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-ghost{background:var(--ghost-bg);color:var(--ghost-ink);}
+.btn-done{background:var(--green);color:#fff;}
+
+.cartbar{position:fixed;left:0;right:0;bottom:14px;display:flex;justify-content:center;pointer-events:none;}
+.cartpill{pointer-events:auto;background:var(--pill-bg);color:var(--pill-fg);border-radius:999px;padding:11px 18px;
+  font-size:13.5px;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer;display:flex;gap:8px;align-items:center;}
+footer.foot{text-align:center;color:#9aa0b0;font-size:11.5px;padding:26px 10px 6px;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>window.UNITS = window.UNITS || {};
+window.UNITS['m1-l8'] = {
+  id: 'm1-l8',
+  book: 'English Grammar for Movers 1',
+  bookShort: 'Movers 1',
+  lesson: 8,
+  title: 'So sánh hơn - So sánh nhất',
+  topicKey: 'so-sanh',
+  can: 'Em so sánh được hai hoặc nhiều người, vật, việc với nhau bằng tính từ và trạng từ.',
+  grammar: [
+    {
+      h: 'So sánh hơn (Comparatives)',
+      icon: 'scale',
+      body: [
+        'Dùng khi so sánh <b>2 đối tượng</b> hoặc 2 nhóm đối tượng với nhau.',
+        'F::S1 + be + <span class="hl">adj-er</span> + <span class="hl">than</span> + O2<span class="ex">Ví dụ: <i>A car is bigger than a bike.</i></span>',
+        'F::S1 + be + <span class="hl">more</span> + adj + <span class="hl">than</span> + O2<span class="ex">Ví dụ: <i>He is more careful than his brother.</i></span>',
+        '<b>Cách thêm đuôi <span class="hl">-er</span>:</b> tính từ ngắn (1 âm tiết) tận cùng bằng "e" thì thêm <span class="hl">r</span> (wide → wider); tận cùng 1 nguyên âm + 1 phụ âm thì nhân đôi phụ âm rồi thêm <span class="hl">er</span> (hot → hotter); các tính từ ngắn còn lại thêm <span class="hl">er</span> (cold → colder).',
+        '<b>Dùng <span class="hl">more</span>:</b> tính từ dài (từ 2 âm tiết trở lên) thì thêm "<span class="hl">more</span>" trước tính từ (interesting → more interesting).',
+        '<b>Lưu ý:</b> tính từ 2 âm tiết tận cùng bằng "y" thì đổi y thành <span class="hl">ier</span> (pretty → prettier); tận cùng er/ow/et thì thêm <span class="hl">er</span> (narrow → narrower, quiet → quieter).',
+        '<b>Bất quy tắc:</b> good → better, bad → worse, much/many → more, little → less, few → fewer, far → farther/further, old → older/elder.',
+        '<b>Dấu hiệu nhận biết:</b> <span class="hl">than</span>; Which ___, A or B?; Between A and B; Of the two + Ns/es.'
+      ],
+      tip: 'Thấy chữ "than" trong câu là dấu hiệu rõ nhất của so sánh hơn.'
+    },
+    {
+      h: 'So sánh nhất (Superlatives)',
+      icon: 'trophy',
+      body: [
+        'Dùng khi so sánh <b>từ 3 đối tượng trở lên</b>.',
+        'F::S + be + <span class="hl">the</span> + adj-<span class="hl">est</span><span class="ex">Ví dụ: <i>She is the best student in my class.</i></span>',
+        'F::S + be + <span class="hl">the most</span> + adj<span class="ex">Ví dụ: <i>He is the most careful in my family.</i></span>',
+        '<b>Cách thêm đuôi <span class="hl">-est</span>:</b> giống quy tắc thêm -er nhưng thêm "<span class="hl">est</span>" (wide → widest, hot → hottest, happy → happiest).',
+        '<b>Dùng <span class="hl">the most</span>:</b> tính từ dài thì thêm "<span class="hl">the most</span>" trước tính từ (complicated → the most complicated).',
+        '<b>Bất quy tắc:</b> good → best, bad → worst, much/many → most, little → least, far → farthest/furthest, old → oldest/eldest.',
+        '<b>Dấu hiệu nhận biết:</b> in + N; one of <span class="hl">the</span> + adj-est + Ns/es; among Ns/es; of all + Ns/es; of the three/four... + Ns/es; câu có thì hiện tại hoàn thành (It is the best story I have ever read).'
+      ],
+      tip: 'So sánh nhất luôn có "the" đứng trước tính từ (trừ khi tính từ đó đã có "most" riêng).'
+    }
+  ],
+  acts: [
+    {
+      id: 'm1-l8-1', title: 'Bài 1. Viết dạng so sánh hơn', star: 2,
+      instr: 'Write the comparative forms of the adjectives/adverbs. (Viết dạng so sánh hơn của tính từ/trạng từ.)',
+      huong: 'Tính từ ngắn thêm -er, tính từ dài (interesting, beautiful, expensive...) thêm "more" phía trước.',
+      type: 'gap',
+      items: [
+        { s: 'high → ___', a: ['higher'] },
+        { s: 'quiet → ___', a: ['quieter'] },
+        { s: 'slowly → ___', a: ['more slowly'] },
+        { s: 'beautifully → ___', a: ['more beautifully'] },
+        { s: 'interesting → ___', a: ['more interesting'] },
+        { s: 'expensive → ___', a: ['more expensive'] },
+        { s: 'creatively → ___', a: ['more creatively'] },
+        { s: 'difficult → ___', a: ['more difficult'] },
+        { s: 'tall → ___', a: ['taller'] },
+        { s: 'hard → ___', a: ['harder'] }
+      ]
+    },
+    {
+      id: 'm1-l8-2', title: 'Bài 2. Viết dạng so sánh hơn (từ bất quy tắc)', star: 2,
+      instr: 'Write the comparatives forms of the adjectives/adverbs. (Viết dạng so sánh hơn của tính từ/trạng từ.)',
+      huong: 'Đây toàn là các từ so sánh hơn bất quy tắc, em học thuộc bảng ở phần Let\'s Learn.',
+      type: 'gap',
+      items: [
+        { s: 'good / well → ___', a: ['better'] },
+        { s: 'little → ___', a: ['less'] },
+        { s: 'many / much → ___', a: ['more'] },
+        { s: 'bad / badly → ___', a: ['worse'] },
+        { s: 'far → ___', a: ['farther', 'further', 'farther/further', 'further/farther'] },
+        { s: 'hot → ___', a: ['hotter'] },
+        { s: 'narrow → ___', a: ['narrower'] },
+        { s: 'hard → ___', a: ['harder'] },
+        { s: 'clever → ___', a: ['cleverer'] },
+        { s: 'happy → ___', a: ['happier'] }
+      ]
+    },
+    {
+      id: 'm1-l8-3', title: 'Bài 3. Chọn dạng so sánh hơn đúng', star: 2,
+      instr: 'Circle the correct answers. (Khoanh tròn đáp án đúng.)',
+      huong: 'Tính từ dài (intelligent, careful, comfortable, expensive) dùng more, tính từ ngắn thêm -er.',
+      type: 'choice',
+      items: [
+        { s: 'He is ___ than me.', o: ['intelligenter', 'more intelligent'], a: 1 },
+        { s: 'My friend did the test ___ than me.', o: ['more carefully', 'carefullier'], a: 0 },
+        { s: 'Do you have a ___ job than your sister?', o: ['better', 'good'], a: 0 },
+        { s: 'My mom\'s ___ than your mom!', o: ['funny', 'funnier'], a: 1 },
+        { s: 'Crocodiles are more dangerous ___ fish.', o: ['than', 'as'], a: 0 },
+        { s: 'Maths is ___ than Chemistry.', o: ['harder', 'more hard'], a: 0 },
+        { s: 'She drives ___ than her brother.', o: ['more careful', 'more carefully'], a: 1 },
+        { s: 'Her new house is ___ than the old one.', o: ['more comfortable', 'comfortabler'], a: 0 },
+        { s: 'It is strange but often a coke is ___ than a beer.', o: ['more expensive', 'expensiver'], a: 0 },
+        { s: 'Non-smokers usually live ___ than smokers.', o: ['more long', 'longer'], a: 1 }
+      ]
+    },
+    {
+      id: 'm1-l8-4', title: 'Bài 4. Hoàn thành câu hỏi so sánh hơn', star: 2,
+      instr: 'Complete the following questions with the comparative form of the adjectives in brackets. (Hoàn thành các câu hỏi sau với so sánh hơn của tính từ.)',
+      huong: 'Biến tính từ trong ngoặc sang dạng so sánh hơn rồi điền vào chỗ trống.',
+      type: 'gap',
+      items: [
+        { s: 'Which river is ___, the Red River or the Mekong River? (long)', a: ['longer'] },
+        { s: 'Which city is ___, London or Rome? (old)', a: ['older'] },
+        { s: 'Which city is ___, New York or Paris? (big)', a: ['bigger'] },
+        { s: 'Which mountain is ___, Mount Everest or Mount Fuji? (high)', a: ['higher'] },
+        { s: 'Which language is ___, Chinese or English? (difficult)', a: ['more difficult'] },
+        { s: 'Which animals are ___, cats or horses? (fast)', a: ['faster'] },
+        { s: 'Which month in Viet Nam is ___, October or December? (cold)', a: ['colder'] },
+        { s: 'Which animals are ___, dogs or dolphins? (intelligent)', a: ['more intelligent'] },
+        { s: 'Which car is ___, this one or that one? (modern)', a: ['more modern'] },
+        { s: 'Which boy is ___, Peter or Henry? (handsome)', a: ['more handsome'] }
+      ]
+    },
+    {
+      id: 'm1-l8-5', title: 'Bài 5. Viết dạng so sánh nhất', star: 2,
+      instr: 'Write the superlative forms of the adjectives/adverbs. (Viết dạng so sánh nhất của tính từ/trạng từ.)',
+      huong: 'So sánh nhất luôn có "the" đứng trước; tính từ ngắn thêm "the + adj-est", tính từ dài thêm "the most".',
+      type: 'gap',
+      items: [
+        { s: 'short → ___', a: ['the shortest'] },
+        { s: 'big → ___', a: ['the biggest'] },
+        { s: 'good / well → ___', a: ['the best'] },
+        { s: 'calm → ___', a: ['the calmest'] },
+        { s: 'bad / badly → ___', a: ['the worst'] },
+        { s: 'large → ___', a: ['the largest'] },
+        { s: 'many / much → ___', a: ['the most'] },
+        { s: 'near → ___', a: ['the nearest'] },
+        { s: 'little → ___', a: ['the least'] },
+        { s: 'careful → ___', a: ['the most careful'] }
+      ]
+    },
+    {
+      id: 'm1-l8-6', title: 'Bài 6. Hoàn thành câu với so sánh nhất', star: 2,
+      instr: 'Complete the following sentences with the superlative form of the given adjectives. (Hoàn thành các câu sau với dạng so sánh nhất của tính từ đã cho.)',
+      huong: 'Nhớ thêm "the" trước dạng so sánh nhất.',
+      type: 'gap',
+      items: [
+        { s: 'English is ___ subject of all. (difficult)', a: ['the most difficult'] },
+        { s: 'My grandmother is one of ___ people in my family. (caring)', a: ['the most caring'] },
+        { s: 'Jane is ___ of all. (tall)', a: ['the tallest'] },
+        { s: 'Who is ___ actress in your country? (famous)', a: ['the most famous'] },
+        { s: 'January is ___ month of the year in Viet Nam. (cold)', a: ['the coldest'] },
+        { s: 'Among students, Hannah is ___. (intelligent)', a: ['the most intelligent'] },
+        { s: 'Is Ms. Dove ___ teacher in our school? (strict)', a: ['the strictest'] },
+        { s: 'Gogy is ___ in our football team. (funny)', a: ['the funniest'] },
+        { s: 'Which sports is ___ of all? (dangerous)', a: ['the most dangerous'] },
+        { s: 'They aren\'t ___ shoes I have. (cheap)', a: ['the cheapest'] }
+      ]
+    },
+    {
+      id: 'm1-l8-7', title: 'Bài 7. Hoàn thành bảng so sánh hơn - so sánh nhất', star: 3,
+      instr: 'Complete the table. (Hoàn thành bảng sau.)',
+      huong: 'Mỗi dòng có 2 ô trống: ô so sánh hơn và ô so sánh nhất, điền đủ cả hai.',
+      type: 'gap',
+      items: [
+        { s: 'far → ___ → ___', a: [['farther', 'further'], ['farthest', 'furthest']], multi: true },
+        { s: 'happy → ___ → ___', a: [['happier'], ['happiest']], multi: true },
+        { s: 'late → ___ → ___', a: [['later'], ['latest', 'last']], multi: true },
+        { s: 'old → ___ → ___', a: [['older', 'elder'], ['oldest', 'eldest']], multi: true },
+        { s: 'narrow → ___ → ___', a: [['narrower'], ['narrowest']], multi: true },
+        { s: 'dry → ___ → ___', a: [['drier'], ['driest']], multi: true },
+        { s: 'sad → ___ → ___', a: [['sadder'], ['saddest']], multi: true },
+        { s: 'clever → ___ → ___', a: [['cleverer'], ['cleverest']], multi: true },
+        { s: 'large → ___ → ___', a: [['larger'], ['largest']], multi: true },
+        { s: 'tidy → ___ → ___', a: [['tidier'], ['tidiest']], multi: true }
+      ]
+    },
+    {
+      id: 'm1-l8-8', title: 'Bài 8. Chọn dạng so sánh nhất đúng', star: 2,
+      instr: 'Circle the correct answers. (Khoanh tròn đáp án đúng.)',
+      huong: 'Chú ý dùng "the" trước so sánh nhất, và more/most chỉ đi với tính từ dài.',
+      type: 'choice',
+      items: [
+        { s: 'This dress is the ___ expensive in the shop.', o: ['most', 'more'], a: 0 },
+        { s: 'Tony is the ___ in the class.', o: ['tallest', 'most tall'], a: 0 },
+        { s: 'Nam is ___ most handsome boy in the neighborhood.', o: ['the', 'a'], a: 0 },
+        { s: 'Tom is the ___ person I\'ve ever met.', o: ['most generous', 'generousest'], a: 0 },
+        { s: 'What is the ___ popular make-up look of young girls?', o: ['more', 'most'], a: 1 },
+        { s: 'I have had the ___ days in my life.', o: ['happiest', 'most happy'], a: 0 },
+        { s: 'That is the most ___ meal I\'ve had for a long time.', o: ['delicious', 'deliciousest'], a: 0 },
+        { s: 'Is this ___ shirt you have got?', o: ['the smallest', 'smaller'], a: 0 },
+        { s: 'Lisa is ___ most careful person in my class.', o: ['the', 'x'], a: 0 },
+        { s: 'Mai is the ___ daughter.', o: ['young', 'youngest'], a: 1 }
+      ]
+    },
+    {
+      id: 'm1-l8-9', title: 'Bài 9. Hoàn thành câu với so sánh nhất (2)', star: 2,
+      instr: 'Complete the following sentences with the superlative form of the adjectives in brackets. (Hoàn thành các câu sau với dạng so sánh nhất của tính từ trong ngoặc.)',
+      huong: 'Nhớ thêm "the" trước dạng so sánh nhất.',
+      type: 'gap',
+      items: [
+        { s: 'It is ___ house in town. (large)', a: ['the largest'] },
+        { s: 'Monday is ___ day of the week. (bad)', a: ['the worst'] },
+        { s: 'Danny was ___ person in his class. (noisy)', a: ['the noisiest'] },
+        { s: 'Sam is ___ in the class. (popular)', a: ['the most popular'] },
+        { s: 'Which is ___ subject at school? (difficult)', a: ['the most difficult'] },
+        { s: 'Jimmy is ___ player in the football team. (good)', a: ['the best'] },
+        { s: 'Elephants are ___ animals. (heavy)', a: ['the heaviest'] },
+        { s: 'Let\'s pick ___ apple of the tree. (big)', a: ['the biggest'] },
+        { s: 'Mary is ___ girl in the room. (thin)', a: ['the thinnest'] },
+        { s: 'That is ___ sofa in our house. (comfortable)', a: ['the most comfortable'] }
+      ]
+    },
+    {
+      id: 'm1-l8-10', title: 'Bài 10. Trắc nghiệm so sánh nhất', star: 2,
+      instr: 'Colour the correct answers. (Tô đáp án đúng.)',
+      huong: 'Đọc kỹ cả 4 đáp án trước khi chọn, chú ý các đáp án gây nhiễu như "biggest than", "worster".',
+      type: 'mcq',
+      items: [
+        { q: 'It is the ___ shop in town.', opts: ['largest', 'large', 'bigger', 'big'], a: 0 },
+        { q: 'Today is the ___ day of the week.', opts: ['bad', 'badly', 'worst', 'worster'], a: 2 },
+        { q: 'Tom was the ___ person in his family.', opts: ['noisy', 'noisiest', 'noisies', 'noisiest than'], a: 1 },
+        { q: 'She is ___ in the class.', opts: ['the most popular', 'most popular than', 'more popular', 'the popularest'], a: 0 },
+        { q: 'Which is the ___ subject at school?', opts: ['more difficult', 'difficulty', 'difficult than', 'most difficult'], a: 3 },
+        { q: 'David is the ___ player in the football team.', opts: ['best', 'bester', 'best than', 'badly'], a: 0 },
+        { q: 'Elephants are the ___ animals.', opts: ['heavy', 'heavies', 'heaviest', 'heaviest than'], a: 2 },
+        { q: 'Let\'s pick the ___ mango of the tree.', opts: ['biggest', 'bigs', 'bigger', 'big than'], a: 0 },
+        { q: 'Alice is the ___ girl in the class.', opts: ['thins', 'thinnest', 'thiner than', 'thin'], a: 1 },
+        { q: 'That is the ___ chair in her house.', opts: ['most comfortable', 'more comfortable', 'comfortables', 'comfortable'], a: 0 }
+      ]
+    },
+    {
+      id: 'm1-l8-11', title: 'Bài 11. Trắc nghiệm so sánh hơn - so sánh nhất', star: 2,
+      instr: 'Circle the correct answers. (Khoanh tròn đáp án đúng.)',
+      huong: 'Câu có "than" thì chọn so sánh hơn, câu không có "than" (và có nghĩa so sánh với cả nhóm) thì chọn so sánh nhất.',
+      type: 'mcq',
+      items: [
+        { q: 'My sister is ___ than me.', opts: ['the tallest', 'taller', 'more taller'], a: 1 },
+        { q: 'Peter is the ___ in his class.', opts: ['short', 'shorter', 'shortest'], a: 2 },
+        { q: 'Ben runs ___ than Jack.', opts: ['faster', 'the fastest', 'fast'], a: 0 },
+        { q: 'Kate is the ___ girl in our team.', opts: ['prettier', 'pretty', 'prettiest'], a: 2 },
+        { q: 'Alice is ___ than her sister.', opts: ['more beautiful', 'beauty', 'beautiful'], a: 0 },
+        { q: 'Son Tung is one of the ___ singers in my country.', opts: ['popular', 'most popular', 'popularity'], a: 1 },
+        { q: 'Ho Chi Minh City is ___ than Ha Noi.', opts: ['more bigger', 'big', 'bigger'], a: 2 },
+        { q: 'Everest is the ___ mountain in the world.', opts: ['highest', 'high', 'higher'], a: 0 },
+        { q: 'Maths is ___ than Chemistry.', opts: ['easy', 'easier', 'easily'], a: 1 },
+        { q: 'My parents buy the ___ cake in the supermarket.', opts: ['bigger', 'big', 'biggest'], a: 2 }
+      ]
+    },
+    {
+      id: 'm1-l8-12', title: 'Bài 12. Sửa lỗi sai về so sánh', star: 3,
+      instr: 'Correct the underlined mistakes. (Sửa lại lỗi sai được gạch chân dưới đây.)',
+      huong: 'Chỉ gõ lại đúng một từ thay cho từ gạch chân bị sai, không cần gõ cả câu.',
+      type: 'type',
+      items: [
+        { s: 'Mary is tallest than Max. (từ sai: tallest)', a: ['taller'] },
+        { s: 'My hair is longest than your hair. (từ sai: longest)', a: ['longer'] },
+        { s: 'She is two years older the me. (từ sai: the)', a: ['than'] },
+        { s: 'It was the happyest day of my life. (từ sai: happyest)', a: ['happiest'] },
+        { s: 'Jenny is thiner than Tom. (từ sai: thiner)', a: ['thinner'] },
+        { s: 'Harry is the fattest more person I\'ve ever seen. (từ sai: more)', a: ['x', 'bỏ từ này', 'xoá'] },
+        { s: 'Jill is most thoughtful than your sister. (từ sai: most)', a: ['more'] },
+        { s: 'Italian food is gooder than American food. (từ sai: gooder)', a: ['better'] },
+        { s: 'This butterfly is beautifuler than that butterfly. (từ sai: beautifuler)', a: ['more beautiful'] },
+        { s: 'France is a biggest country than Britain. (từ sai: biggest)', a: ['bigger'] }
+      ]
+    }
+  ]
+};
+
+window.ORDER = ["m1-l8"];
+window.WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyjIXA7e1prfuXJ6OsSzwrgBIhTB2gz9tEHtFFlQorCFOZpHM_2TdHR5dehhFC350ngZQ/exec";
+</script>
+<script>(function(){
+"use strict";
+
+var ORDER = window.ORDER || Object.keys(window.UNITS || {});
+var UNITS = window.UNITS || {};
+
+/* ---------- storage helpers ---------- */
+function lsGet(k, d){ try{ var v = localStorage.getItem(k); return v==null? d : JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+function getCart(){ return lsGet('hd_cart', []); }
+function setCart(arr){ lsSet('hd_cart', arr); }
+function toggleCart(id){
+  var c = getCart();
+  var i = c.indexOf(id);
+  if(i>=0) c.splice(i,1); else c.push(id);
+  setCart(c);
+  return c;
+}
+
+function scoreKey(unitId, actId){ return 'hd_score_'+unitId+'_'+actId; }
+function getScore(unitId, actId){ return lsGet(scoreKey(unitId,actId), null); }
+function setScore(unitId, actId, pct){
+  var stars = pct>=1 ? 3 : pct>=0.9 ? 2 : pct>=0.8 ? 1 : 0;
+  var rec = { pct: pct, stars: stars, done: pct>=1 };
+  lsSet(scoreKey(unitId,actId), rec);
+  return rec;
+}
+
+/* ---------- student info + gui diem ve Google Sheets ---------- */
+function getStudent(){ return lsGet('hd_student', { ten:'', lop:'' }); }
+function setStudent(ten, lop){ lsSet('hd_student', { ten: (ten||'').trim(), lop: (lop||'').trim() }); }
+
+function buildScoreUrl(u, act, correctCount, total, stars){
+  var WEBAPP = window.WEBAPP_URL || '';
+  if(!WEBAPP) return null;
+  var st = getStudent();
+  if(!st.ten || !st.lop) return null;
+  var diem = Math.round((correctCount/total)*1000)/10;
+  var params = {
+    ten: st.ten, lop: st.lop,
+    unit: u.id, bai: act.id,
+    tieude: u.bookShort+' - Lesson '+u.lesson+' - '+act.title,
+    dung: correctCount, tong: total, diem: diem, sao: stars
+  };
+  var qsStr = Object.keys(params).map(function(k){
+    return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);
+  }).join('&');
+  return WEBAPP + (WEBAPP.indexOf('?')>=0 ? '&' : '?') + qsStr;
+}
+
+function sendScore(u, act, correctCount, total, stars){
+  var url = buildScoreUrl(u, act, correctCount, total, stars);
+  if(!url) return null;
+  try{ fetch(url, { mode:'no-cors' }).catch(function(){}); }catch(e){}
+  return url;
+}
+
+/* ---------- utils ---------- */
+function norm(s){
+  return String(s==null?'':s).toLowerCase().trim().replace(/\s+/g,' ').replace(/[.,!?;:]+$/,'');
+}
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+function qs(sel, root){ return (root||document).querySelector(sel); }
+function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+function on(el, ev, fn){ el.addEventListener(ev, fn); }
+
+function icon(name, cls){
+  var paths = {
+    search:'<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    star:'<polygon points="12 2 15.1 8.6 22.2 9.3 17 14.1 18.5 21.2 12 17.6 5.5 21.2 7 14.1 1.8 9.3 8.9 8.6"/>',
+    scale:'<path d="M3 17l6-6 4 4 8-8M21 7v6M21 7h-6"/>',
+    trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 5H4a3 3 0 0 0 3 5M17 5h3a3 3 0 0 1-3 5"/>',
+    back:'<polyline points="15 18 9 12 15 6"/>',
+    check:'<circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/>',
+    book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/>',
+    cart:'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>'
+  };
+  return '<svg class="'+(cls||'')+'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(paths[name]||'')+'</svg>';
+}
+
+/* topic label map (Vietnamese search aliases) */
+function unitSearchText(u){
+  return [u.title, u.book, u.bookShort, u.topicKey].join(' ').toLowerCase();
+}
+
+/* ---------- routing ---------- */
+function parseHash(){
+  var h = location.hash.replace(/^#/,'');
+  var parts = h.split('/').filter(Boolean);
+  if(parts.length===0) return {page:'home'};
+  if(parts[0]==='u' && parts[1]) return {page:'unit', unitId:parts[1], tab: parts[2]||'grammar'};
+  if(parts[0]==='a' && parts[1] && parts[2]) return {page:'act', unitId:parts[1], actId:parts[2]};
+  return {page:'home'};
+}
+function go(hash){ location.hash = hash; }
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', render);
+
+/* ---------- render dispatch ---------- */
+function render(){
+  var r = parseHash();
+  var app = qs('#app');
+  if(r.page==='unit'){ renderUnit(app, r); return; }
+  if(r.page==='act'){ renderAct(app, r); return; }
+  renderHome(app, r);
+}
+
+/* ---------- HOME ---------- */
+var homeState = { tab: 'all', query: '' };
+
+function renderHome(app){
+  var cart = getCart();
+  var list = ORDER.map(function(id){ return UNITS[id]; }).filter(Boolean);
+  var q = homeState.query.trim().toLowerCase();
+  var shown = list.filter(function(u){
+    if(homeState.tab==='cart' && cart.indexOf(u.id)<0) return false;
+    if(!q) return true;
+    return unitSearchText(u).indexOf(q) >= 0;
+  });
+
+  var html = '';
+  html += '<header class="top"><div class="wrap">';
+  html += '<div class="title">Luyện ngữ pháp Tiểu học</div>';
+  html += '<div class="sub">Dịch vụ gia sư và dạy kèm Hoa Dũng</div>';
+  html += '<div class="searchbox">'+icon('search')+'<input id="searchInput" placeholder="Tìm chủ đề ngữ pháp hoặc tên sách..." value="'+esc(homeState.query)+'"></div>';
+  html += '</div></header>';
+  html += '<div class="wrap">';
+  var st = getStudent();
+  html += '<div class="stubox">';
+  html += '<div class="stubox-h">Thông tin học sinh</div>';
+  html += '<div class="stubox-row">';
+  html += '<input id="stuTen" class="stuinput" placeholder="Họ và tên" value="'+esc(st.ten)+'">';
+  html += '<input id="stuLop" class="stuinput stuinput-lop" placeholder="Lớp" value="'+esc(st.lop)+'">';
+  html += '</div>';
+  html += '<div class="stubox-note">Điền để app gửi điểm cho thầy sau mỗi bài.</div>';
+  html += '</div>';
+  html += '<div class="tabs">';
+  html += '<button class="tabbtn'+(homeState.tab==='all'?' active':'')+'" data-tab="all">Tất cả chủ đề</button>';
+  html += '<button class="tabbtn'+(homeState.tab==='cart'?' active':'')+'" data-tab="cart">Giỏ của em ('+cart.length+')</button>';
+  html += '</div>';
+
+  if(shown.length===0){
+    html += '<div class="empty">'+(homeState.tab==='cart' ? 'Giỏ của em đang trống. Bấm vào ngôi sao ở mỗi chủ đề để thêm vào giỏ.' : 'Không tìm thấy chủ đề phù hợp.')+'</div>';
+  } else {
+    html += '<div class="cardgrid">';
+    shown.forEach(function(u){
+      var inCart = cart.indexOf(u.id) >= 0;
+      html += '<div class="unitcard" data-open="'+u.id+'">';
+      html += '<div class="uc-main">';
+      html += '<div class="uc-book">'+esc(u.bookShort)+' &middot; Lesson '+u.lesson+'</div>';
+      html += '<div class="uc-title">'+esc(u.title)+'</div>';
+      html += '<div class="uc-meta">'+u.acts.length+' bài luyện tập</div>';
+      html += '</div>';
+      html += '<button class="starbtn'+(inCart?' on':'')+'" data-star="'+u.id+'" title="Thêm vào giỏ">'+icon('star')+'</button>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  html += '<footer class="foot">Dịch vụ gia sư và dạy kèm Hoa Dũng</footer>';
+  app.innerHTML = html;
+
+  on(qs('#searchInput'), 'input', function(e){ homeState.query = e.target.value; renderHome(app);
+    var el = qs('#searchInput'); el.focus(); el.setSelectionRange(el.value.length, el.value.length); });
+  var saveStu = function(){ setStudent(qs('#stuTen').value, qs('#stuLop').value); };
+  on(qs('#stuTen'), 'input', saveStu);
+  on(qs('#stuLop'), 'input', saveStu);
+  qsa('.tabbtn').forEach(function(b){ on(b,'click', function(){ homeState.tab = b.getAttribute('data-tab'); renderHome(app); }); });
+  qsa('.starbtn').forEach(function(b){ on(b,'click', function(ev){ ev.stopPropagation(); toggleCart(b.getAttribute('data-star')); renderHome(app); }); });
+  qsa('.unitcard').forEach(function(c){ on(c,'click', function(){ go('#u/'+c.getAttribute('data-open')); }); });
+}
+
+/* ---------- UNIT PAGE ---------- */
+function renderUnit(app, r){
+  var u = UNITS[r.unitId];
+  if(!u){ go('#home'); return; }
+  var cart = getCart(); var inCart = cart.indexOf(u.id)>=0;
+  var tab = r.tab==='practice' ? 'practice' : 'grammar';
+
+  var html = '';
+  html += '<div class="wrap">';
+  html += '<div class="backbar"><button class="backbtn" id="backHome">'+icon('back')+'Trang chủ</button></div>';
+  html += '<div class="unithead">';
+  html += '<div class="uh-book">'+esc(u.bookShort)+' &middot; Lesson '+u.lesson+'</div>';
+  html += '<h1>'+esc(u.title)+'</h1>';
+  html += '<div class="uh-can">'+esc(u.can)+'</div>';
+  html += '</div>';
+  html += '<div class="inner-tabs">';
+  html += '<button class="tabbtn'+(tab==='grammar'?' active':'')+'" data-t="grammar">Ghi nhớ</button>';
+  html += '<button class="tabbtn'+(tab==='practice'?' active':'')+'" data-t="practice">Luyện tập</button>';
+  html += '</div>';
+
+  if(tab==='grammar'){
+    u.grammar.forEach(function(g){
+      html += '<div class="gblock"><h3>'+icon(g.icon||'book')+' '+esc(g.h)+'</h3>';
+      g.body.forEach(function(p){
+        if(p.indexOf('F::')===0){ html += '<div class="formula">'+p.slice(3)+'</div>'; }
+        else { html += '<p>'+p+'</p>'; }
+      });
+      if(g.tip) html += '<div class="gtip">Mẹo: '+esc(g.tip)+'</div>';
+      html += '</div>';
+    });
+  } else {
+    html += '<div class="sectitle">Danh sách bài tập</div>';
+    u.acts.forEach(function(act){
+      var sc = getScore(u.id, act.id);
+      var stars = sc ? sc.stars : 0;
+      html += '<div class="actcard" data-act="'+act.id+'">';
+      html += '<div class="acticon">'+icon('check')+'</div>';
+      html += '<div class="ac-title">'+esc(act.title)+'</div>';
+      html += '<div class="stars">';
+      for(var i=1;i<=3;i++){ html += '<span class="'+(i<=stars?'st-on':'st-off')+'">'+icon('star')+'</span>'; }
+      html += '</div></div>';
+    });
+  }
+  html += '</div>';
+  html += '<div class="cartbar"><div class="cartpill" id="cartToggle">'+icon('star', inCart?'':'')+(inCart?'Đã có trong giỏ':'Thêm vào giỏ')+'</div></div>';
+  app.innerHTML = html;
+
+  on(qs('#backHome'), 'click', function(){ go('#home'); });
+  qsa('.tabbtn').forEach(function(b){ on(b,'click', function(){ go('#u/'+u.id+'/'+b.getAttribute('data-t')); }); });
+  qsa('.actcard').forEach(function(c){ on(c,'click', function(){ go('#a/'+u.id+'/'+c.getAttribute('data-act')); }); });
+  on(qs('#cartToggle'), 'click', function(){ toggleCart(u.id); renderUnit(app, r); });
+}
+
+/* ---------- ACT RUNNER ---------- */
+var actState = null; /* {unitId, actId, answers:[], locked:[], checked:false, firstDone:false} */
+
+function freshState(unitId, actId){
+  var act = UNITS[unitId].acts.find(function(a){ return a.id===actId; });
+  var answers = act.items.map(function(it){
+    if(act.type==='choice' || act.type==='mcq') return null;
+    if(it.multi) return (it.a||[]).map(function(){ return ''; });
+    return '';
+  });
+  return { unitId:unitId, actId:actId, answers:answers, locked:act.items.map(function(){return false;}), bad:act.items.map(function(){return false;}), checked:false, firstDone:false, sendMsg:null, sendUrl:null };
+}
+
+function isItemCorrect(item, val, type){
+  if(type==='choice' || type==='mcq'){
+    return val === item.a;
+  }
+  if(item.multi){
+    var accs = item.a;
+    for(var i=0;i<accs.length;i++){
+      var ok = accs[i].some(function(acc){ return norm(acc)===norm(val[i]); });
+      if(!ok) return false;
+    }
+    return true;
+  }
+  return (item.a||[]).some(function(acc){ return norm(acc)===norm(val); });
+}
+
+function renderAct(app, r){
+  var u = UNITS[r.unitId];
+  if(!u){ go('#home'); return; }
+  var act = u.acts.find(function(a){ return a.id===r.actId; });
+  if(!act){ go('#u/'+u.id); return; }
+
+  if(!actState || actState.unitId!==u.id || actState.actId!==act.id){
+    actState = freshState(u.id, act.id);
+  }
+  draw();
+
+  function draw(){
+    var html = '';
+    html += '<div class="wrap">';
+    html += '<div class="backbar"><button class="backbtn" id="backUnit">'+icon('back')+esc(u.title)+'</button></div>';
+    html += '<h1 style="font-size:17px;margin:4px 0 10px;">'+esc(act.title)+'</h1>';
+    html += '<div class="actinstr"><b>Đề bài:</b> '+esc(act.instr)+'</div>';
+    html += '<div class="actrun" id="qlist">';
+
+    act.items.forEach(function(item, idx){
+      html += '<div class="qrow"><div class="qn">Câu '+(idx+1)+'</div>';
+      if(act.type==='gap' || act.type==='type'){
+        html += renderGapRow(item, idx);
+      } else if(act.type==='choice'){
+        html += renderChoiceRow(item, idx);
+      } else if(act.type==='mcq'){
+        html += renderMcqRow(item, idx);
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+
+    var allCorrect = actState.checked && act.items.every(function(it,i){ return actState.locked[i]; });
+    if(actState.checked){
+      var wrongCount = act.items.filter(function(it,i){ return !actState.locked[i]; }).length;
+      html += '<div class="feedback'+(allCorrect?' ok':'')+'">';
+      if(allCorrect){
+        html += '<div class="fb-line"><b>Tuyệt vời!</b> Em đã làm đúng hết cả bài.</div>';
+        html += '<div class="btnrow"><button class="btn btn-done" id="btnRedo">Làm lại</button></div>';
+      } else {
+        html += '<div class="fb-line">Còn <b>'+wrongCount+'</b> câu chưa đúng.</div>';
+        html += '<div class="fb-line"><b>Cách làm:</b> '+esc(act.huong)+'</div>';
+        html += '<div class="fb-line">Sửa lại rồi bấm Kiểm tra lại nhé.</div>';
+        html += '<div class="btnrow"><button class="btn btn-primary" id="btnCheck">Kiểm tra lại</button><button class="btn btn-ghost" id="btnRedo">Làm lại</button></div>';
+      }
+      if(actState.sendMsg==='need-info'){
+        html += '<div class="sendline">Điền Họ tên và Lớp ở trang chủ để app gửi điểm cho thầy.</div>';
+      } else if(actState.sendMsg==='sent'){
+        html += '<div class="sendline">Đã gửi điểm cho thầy. Nếu chưa chắc đã gửi được, bấm <a href="'+esc(actState.sendUrl)+'" target="_blank" rel="noopener">gửi lại</a>.</div>';
+      }
+      html += '</div>';
+    } else {
+      html += '<div class="feedback"><div class="btnrow"><button class="btn btn-primary" id="btnCheck">Kiểm tra</button></div></div>';
+    }
+    html += '</div>';
+    app.innerHTML = html;
+    bind();
+  }
+
+  function renderGapRow(item, idx){
+    var parts = item.s.split('___');
+    var out = '<div class="qtext">';
+    if(item.multi){
+      var vals = actState.answers[idx];
+      for(var i=0;i<parts.length;i++){
+        out += esc(parts[i]);
+        if(i < parts.length-1){
+          var cls = actState.locked[idx] ? 'ok' : (actState.bad[idx] ? 'bad' : '');
+          out += '<input class="blank '+cls+'" data-idx="'+idx+'" data-sub="'+i+'" value="'+esc(vals[i])+'" '+(actState.locked[idx]?'readonly':'')+'>';
+        }
+      }
+    } else {
+      if(act.type==='type'){
+        out = '<div class="qtext">'+esc(item.s)+'</div><div style="margin-top:8px;">';
+        var cls2 = actState.locked[idx] ? 'ok' : (actState.bad[idx] ? 'bad' : '');
+        out += '<input class="blank '+cls2+'" style="width:70%;min-width:160px;" data-idx="'+idx+'" placeholder="Gõ đáp án..." value="'+esc(actState.answers[idx])+'" '+(actState.locked[idx]?'readonly':'')+'>';
+      } else {
+        for(var j=0;j<parts.length;j++){
+          out += esc(parts[j]);
+          if(j < parts.length-1){
+            var cls3 = actState.locked[idx] ? 'ok' : (actState.bad[idx] ? 'bad' : '');
+            out += '<input class="blank '+cls3+'" data-idx="'+idx+'" value="'+esc(actState.answers[idx])+'" '+(actState.locked[idx]?'readonly':'')+'>';
+          }
+        }
+      }
+    }
+    out += '</div>';
+    return out;
+  }
+
+  function renderChoiceRow(item, idx){
+    var out = '<div class="qtext">'+esc(item.s.replace('___','_____'))+'</div><div class="opts">';
+    item.o.forEach(function(opt, oi){
+      var cls = '';
+      if(actState.locked[idx]){
+        cls = oi===item.a ? 'ok' : (actState.answers[idx]===oi ? 'bad' : '');
+      } else if(actState.answers[idx]===oi){
+        cls = actState.bad[idx] ? 'bad sel' : 'sel';
+      }
+      out += '<button class="optbtn '+cls+'" data-idx="'+idx+'" data-opt="'+oi+'" '+(actState.locked[idx]?'disabled':'')+'>'+esc(opt)+'</button>';
+    });
+    out += '</div>';
+    return out;
+  }
+
+  function renderMcqRow(item, idx){
+    var out = '<div class="qtext">'+esc(item.q)+'</div><div class="opts">';
+    var letters = ['A','B','C','D'];
+    item.opts.forEach(function(opt, oi){
+      var cls = '';
+      if(actState.locked[idx]){
+        cls = oi===item.a ? 'ok' : (actState.answers[idx]===oi ? 'bad' : '');
+      } else if(actState.answers[idx]===oi){
+        cls = actState.bad[idx] ? 'bad sel' : 'sel';
+      }
+      out += '<button class="optbtn '+cls+'" data-idx="'+idx+'" data-opt="'+oi+'" '+(actState.locked[idx]?'disabled':'')+'>'+letters[oi]+'. '+esc(opt)+'</button>';
+    });
+    out += '</div>';
+    return out;
+  }
+
+  function bind(){
+    on(qs('#backUnit'), 'click', function(){ go('#u/'+u.id+'/practice'); });
+
+    qsa('.blank').forEach(function(inp){
+      on(inp, 'input', function(){
+        var idx = +inp.getAttribute('data-idx');
+        var item = act.items[idx];
+        if(item.multi){
+          var sub = +inp.getAttribute('data-sub');
+          actState.answers[idx][sub] = inp.value;
+        } else {
+          actState.answers[idx] = inp.value;
+        }
+        if(actState.bad[idx]){ actState.bad[idx]=false; inp.classList.remove('bad'); }
+      });
+    });
+    qsa('.optbtn').forEach(function(btn){
+      on(btn, 'click', function(){
+        var idx = +btn.getAttribute('data-idx');
+        if(actState.locked[idx]) return;
+        actState.answers[idx] = +btn.getAttribute('data-opt');
+        actState.bad[idx] = false;
+        draw();
+      });
+    });
+    var bc = qs('#btnCheck'); if(bc) on(bc,'click', doCheck);
+    var br = qs('#btnRedo'); if(br) on(br,'click', function(){ actState = freshState(u.id, act.id); draw(); });
+  }
+
+  function doCheck(){
+    var correctCount = 0;
+    act.items.forEach(function(item, idx){
+      var val = actState.answers[idx];
+      var ok = isItemCorrect(item, val, act.type);
+      if(ok){ actState.locked[idx] = true; actState.bad[idx] = false; correctCount++; }
+      else { actState.bad[idx] = true; }
+    });
+    if(!actState.firstDone){
+      actState.firstDone = true;
+      var rec = setScore(u.id, act.id, correctCount/act.items.length);
+      if(window.WEBAPP_URL){
+        var st0 = getStudent();
+        if(!st0.ten || !st0.lop){ actState.sendMsg = 'need-info'; }
+        else {
+          actState.sendUrl = sendScore(u, act, correctCount, act.items.length, rec.stars);
+          actState.sendMsg = 'sent';
+        }
+      }
+    } else if(correctCount===act.items.length){
+      var existing = getScore(u.id, act.id);
+      if(!existing || existing.pct < 1) setScore(u.id, act.id, 1);
+    }
+    actState.checked = true;
+    draw();
+  }
+}
+
+})();
+</script>
+</body>
+</html>
