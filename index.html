@@ -218,6 +218,8 @@ footer.foot{text-align:center;color:#9aa0b0;font-size:11.5px;padding:26px 10px 6
 .sess-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .sess-name{font-size:17px;font-weight:700;color:var(--ink);}
 .btn-small{padding:7px 12px;font-size:13px;border-radius:10px;flex:none;}
+.login-gv{text-align:center;margin-top:14px;font-size:13px;}
+.login-gv a{color:var(--sub);}
 </style>
 </head>
 <body>
@@ -5971,6 +5973,7 @@ function toQuery(p){
   }).join('&');
 }
 function jsonp(params){
+  if(window.__fake) return new Promise(function(res){ setTimeout(function(){ res(window.__fake(params)); }, 250); });
   return new Promise(function(resolve, reject){
     var base = window.WEBAPP_URL;
     var name = 'hdcb_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -6116,7 +6119,7 @@ function renderLogin(app, msg){
   h += '<input id="loginPass" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">';
   h += '<button class="loginbtn" id="btnLogin">Vào học</button>';
   h += '<div class="login-msg" id="loginMsg">'+esc(msg||'')+'</div>';
-  h += '</div></div>';
+  h += '</div><div class="login-gv"><a href="quan-ly.html">Khu vực giáo viên</a></div></div>';
   h += '<footer class="foot">Dịch vụ gia sư và dạy kèm Hoa Dũng</footer>';
   app.innerHTML = h;
 

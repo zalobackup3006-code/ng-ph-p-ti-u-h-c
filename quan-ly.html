@@ -53,7 +53,7 @@ th{font-size:12.5px;color:#6b7280;font-weight:700}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap" style="padding:0 16px"><h1>Quản lý tài khoản và giao bài</h1><div class="sub">Dịch vụ gia sư và dạy kèm Hoa Dũng · Chỉ thầy dùng trang này</div></div></header>
+<header class="top"><div class="wrap" style="padding:0 16px"><h1>Quản lý tài khoản và giao bài</h1><div class="sub">Dịch vụ gia sư và dạy kèm Hoa Dũng · Chỉ thầy dùng trang này · <a href="./" style="color:#fff">Về trang học sinh</a></div></div></header>
 <main class="wrap">
 
 <section id="gate" class="card" style="max-width:440px">
@@ -142,6 +142,7 @@ function toQuery(p){
   return Object.keys(p).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(p[k]==null?'':p[k]); }).join('&');
 }
 function jsonp(params){
+  if(window.__fake) return new Promise(function(res){ setTimeout(function(){ res(window.__fake(params)); }, 250); });
   return new Promise(function(resolve, reject){
     if(!WEBAPP_URL){ reject(new Error('nourl')); return; }
     var name = 'hdadm_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
