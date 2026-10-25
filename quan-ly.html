@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quản lý tài khoản và giao bài</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f5f6fa;color:#1f2430;font-size:15px;line-height:1.45}
+.top{background:#4f6df5;color:#fff;padding:16px}
+.top h1{margin:0;font-size:19px}
+.top .sub{opacity:.92;font-size:13px;margin-top:3px}
+.wrap{max-width:980px;margin:0 auto;padding:14px 16px 40px}
+.card{background:#fff;border:1px solid #e2e5ee;border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 8px;font-size:16px}
+.note{color:#6b7280;font-size:13px;margin:0 0 10px}
+input,select,textarea{font:inherit;font-size:15px;padding:9px 10px;border:1.5px solid #e2e5ee;border-radius:9px;background:#fff;color:#1f2430;max-width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#4f6df5}
+textarea{width:100%;min-height:130px;font-family:inherit}
+.w340{width:100%;max-width:340px}
+button{font:inherit;border:0;border-radius:9px;padding:9px 14px;cursor:pointer;background:#4f6df5;color:#fff;font-weight:600}
+button.ghost{background:#eef0f7;color:#1f2430}
+button.danger{background:#fdecec;color:#b42318}
+button.small{padding:5px 9px;font-size:13px}
+button:disabled{opacity:.55;cursor:default}
+.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{background:#fff;color:#1f2430;border:1.5px solid #e2e5ee}
+.tabs button.on,.kbtn.on{background:#4f6df5;color:#fff;border-color:#4f6df5}
+.kbtn{background:#fff;color:#1f2430;border:1.5px solid #e2e5ee}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #e2e5ee;vertical-align:middle}
+th{font-size:12.5px;color:#6b7280;font-weight:700}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{margin-top:8px;font-size:14px;min-height:0}
+.msg.err{color:#b42318}
+.msg.ok{color:#1ea672}
+.hide{display:none!important}
+.tablewrap{overflow-x:auto}
+.unit{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid #e2e5ee;border-radius:10px;margin-bottom:6px;cursor:pointer;background:#fff}
+.unit.on{border-color:#4f6df5;background:#f1f4ff}
+.unit input{margin-top:3px;width:auto}
+.unit .u1{font-size:12.5px;color:#6b7280}
+.unit .u2{font-weight:600}
+.grp{font-size:12.5px;font-weight:700;color:#6b7280;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.3px}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:#e8f8f1;color:#1ea672;font-weight:600}
+.pill.off{background:#fdecec;color:#b42318}
+@media print{
+  body *{visibility:hidden}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{position:absolute;left:0;top:0;width:100%}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap" style="padding:0 16px"><h1>Quản lý tài khoản và giao bài</h1><div class="sub">Dịch vụ gia sư và dạy kèm Hoa Dũng · Chỉ thầy dùng trang này · <a href="./" style="color:#fff">Về trang học sinh</a></div></div></header>
+<main class="wrap">
+
+<section id="gate" class="card" style="max-width:440px">
+  <h2>Mật khẩu quản lý</h2>
+  <p class="note">Nhập mật khẩu ở ô B2 của tab "Quản trị" trong Google Sheet của thầy.</p>
+  <input id="admPass" class="w340" type="password" autocomplete="current-password">
+  <div class="row" style="margin-top:10px"><button id="btnGate">Vào quản lý</button></div>
+  <div class="msg err" id="gateMsg"></div>
+</section>
+
+<div id="panel" class="hide">
+  <div class="tabs">
+    <button id="tabAcc" class="on">Tài khoản học sinh</button>
+    <button id="tabGiao">Giao bài theo khối</button>
+  </div>
+
+  <section id="secAcc">
+    <div class="card">
+      <h2>Tạo tài khoản mới</h2>
+      <p class="note">Mỗi dòng một em, theo mẫu <b>Họ và tên - Khối</b>. Ví dụ: Nguyễn Văn An - Khối 3. App tự tạo tên đăng nhập và mật khẩu.</p>
+      <textarea id="dsIn" placeholder="Nguyễn Văn An - Khối 3&#10;Trần Thị Bình - Khối 4"></textarea>
+      <div class="row" style="margin-top:8px"><button id="btnTao">Tạo tài khoản</button><span class="note" id="dsCount"></span></div>
+      <div class="msg err" id="dsErr"></div>
+    </div>
+
+    <div class="card hide" id="kqCard">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">Tài khoản vừa tạo</h2>
+        <div class="row"><button class="ghost small" id="btnCopy">Sao chép</button><button class="ghost small" id="btnPrint">In phiếu</button></div>
+      </div>
+      <p class="note">Mật khẩu cũng xem lại được trong danh sách bên dưới.</p>
+      <div id="printArea"><div class="tablewrap" id="kqBody"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px">
+        <h2 style="margin:0">Danh sách tài khoản</h2>
+        <div class="row">
+          <select id="fKhoi"><option value="">Tất cả khối</option><option>Khối 1</option><option>Khối 2</option><option>Khối 3</option><option>Khối 4</option><option>Khối 5</option></select>
+          <button class="ghost small" id="btnReload">Tải lại</button>
+        </div>
+      </div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Họ và tên</th><th>Khối</th><th>Tên đăng nhập</th><th>Mật khẩu</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody id="listBody"></tbody>
+      </table></div>
+      <div class="msg" id="listMsg"></div>
+    </div>
+  </section>
+
+  <section id="secGiao" class="hide">
+    <div class="card">
+      <h2>Chọn khối</h2>
+      <div class="row" id="khoiBtns"></div>
+      <p class="note" style="margin-top:10px" id="giaoNote"></p>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px">
+        <h2 style="margin:0">Chọn chủ đề cho khối</h2>
+        <div class="row"><button class="ghost small" id="btnBoChon">Bỏ chọn hết</button></div>
+      </div>
+      <input id="qBai" class="w340" placeholder="Tìm chủ đề hoặc tên sách..." style="margin-bottom:10px">
+      <div id="unitList"></div>
+      <div class="row" style="margin-top:12px"><button id="btnLuuGiao">Lưu giao bài</button><span class="note" id="giaoCount"></span></div>
+      <div class="msg" id="giaoMsg"></div>
+    </div>
+  </section>
+</div>
+</main>
+
+<script>
+var WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwMzlItQT0dbL3jLjV-PswooQLbJeS3pY9VkcroNEFIQr55Qmnuk33vmMo9qHb4RAMu/exec";
+var INDEX = {"units":[{"id":"m1-l8","b":"Movers 1","u":"Lesson 8","t":"So sánh hơn - So sánh nhất","g":"comparison"},{"id":"s1-l7","b":"Starters 1","u":"Lesson 7","t":"Đại từ nhân xưng (Personal Pronouns)","g":"present-simple"},{"id":"s1-l4","b":"Starters 1","u":"Lesson 4","t":"Danh từ số ít - số nhiều (Singular & Plural Nouns)","g":"present-simple"},{"id":"e3t2-u22","b":"E3 Tập 2","u":"Unit 22","t":"Hiện tại đơn - Thể khẳng định (Present Simple - Positive)","g":"present-simple"},{"id":"e3t2-u23","b":"E3 Tập 2","u":"Unit 23","t":"Hiện tại đơn - Thể phủ định (Present Simple - Negative)","g":"present-simple"},{"id":"e3t2-u24","b":"E3 Tập 2","u":"Unit 24","t":"Hiện tại đơn - Thể nghi vấn (Present Simple - Interrogative)","g":"present-simple"},{"id":"e3t2-u25","b":"E3 Tập 2","u":"Unit 25","t":"Like / Likes","g":"present-simple"},{"id":"e3t2-u26","b":"E3 Tập 2","u":"Unit 26","t":"Don't / Doesn't + like","g":"present-simple"},{"id":"e3t2-u27","b":"E3 Tập 2","u":"Unit 27","t":"Do / Does + like ...?","g":"present-simple"},{"id":"e4-u1","b":"E4 Tập 1","u":"Unit 1","t":"Động từ to be ở hiện tại đơn (am / is / are)","g":"present-simple"},{"id":"e4-u9","b":"E4 Tập 1","u":"Unit 9","t":"Hiện tại đơn - Câu khẳng định (Present Simple - Affirmatives)","g":"present-simple"},{"id":"e4-u10","b":"E4 Tập 1","u":"Unit 10","t":"Hiện tại đơn - Câu phủ định (Present Simple - Negatives)","g":"present-simple"},{"id":"e4-u11","b":"E4 Tập 1","u":"Unit 11","t":"Hiện tại đơn - Câu hỏi Yes/No (Present Simple - Yes/No Questions)","g":"present-simple"},{"id":"e4-u12","b":"E4 Tập 1","u":"Unit 12","t":"Hiện tại đơn - Câu hỏi What (Present Simple - What Questions)","g":"present-simple"},{"id":"s2-l13","b":"Starters 2","u":"Lesson 13","t":"Thì hiện tại đơn - Tổng hợp (Present Simple Tense)","g":"present-simple"},{"id":"m2-l11","b":"Movers 2","u":"Lesson 11","t":"Thì hiện tại đơn - Nâng cao (Present Simple Tense)","g":"present-simple"},{"id":"e5-u4","b":"E5 Tập 1","u":"Unit 4","t":"Hiện tại đơn - Luyện tổng hợp (Present Simple)","g":"present-simple"},{"id":"ss-rewrite","b":"Tổng hợp","u":"100 câu","t":"Viết lại câu với so sánh hơn - so sánh nhất (100 câu)","g":"comparison"},{"id":"b11-u17","b":"Sách 200 trang","u":"Unit 17","t":"Thì quá khứ đơn (Past Simple)","g":"past-simple"},{"id":"m2-l13","b":"Movers 2","u":"Lesson 13","t":"Thì quá khứ đơn: was/were, động từ có quy tắc và bất quy tắc, did/didn't","g":"past-simple"},{"id":"m2-pc","b":"Movers 2","u":"Lesson 11","t":"Thì hiện tại tiếp diễn (Present Continuous) - Movers 2","g":"present-continuous"},{"id":"fl1-l6","b":"Flyers 1","u":"Lesson 6","t":"Giới từ chỉ vị trí (Prepositions of place) - Flyers 1","g":"prep-number"},{"id":"fl1-l6b","b":"Flyers 1","u":"Lesson 6 (tiếp)","t":"Giới từ chỉ thời gian và vị trí - Flyers 1 (bài 4-7)","g":"prep-number"},{"id":"fl1-poss","b":"Flyers 1","u":"Lesson 5 (tiếp)","t":"Sở hữu cách 's (Possessive case) - Flyers 1","g":"possessive"},{"id":"e5t1-whose","b":"E5 Tập 1","u":"Whose","t":"Sở hữu cách 's, số nhiều sở hữu và câu hỏi Whose","g":"possessive"},{"id":"s2-can","b":"Starters 2","u":"Lesson 11","t":"Động từ khuyết thiếu CAN (Modal verb can)","g":"modal"},{"id":"s2-poss","b":"Starters 2","u":"Lesson 12","t":"Tính từ sở hữu (Possessive adjectives)","g":"possessive"},{"id":"s2-q","b":"Starters 2","u":"Lesson 15","t":"Câu hỏi Yes/No và câu hỏi Wh- (Questions) - Starters 2","g":"questions"},{"id":"s2-this","b":"Starters 2","u":"This / That / These / Those","t":"This, That, These, Those (Đại từ chỉ định)","g":"demonstratives"},{"id":"s2-there","b":"Starters 2","u":"There is / There are","t":"There is và There are (Có ... ở ...)","g":"there"},{"id":"s2-there2","b":"Starters 2","u":"There is / There are (tiếp)","t":"There is / There are: câu hỏi, phủ định và luyện tập (practice)","g":"there"},{"id":"s2-have","b":"Starters 2","u":"Have / Has","t":"Động từ have / has (Have and has)","g":"have"},{"id":"s2-can2","b":"Starters 2","u":"Lesson 11 (tiếp)","t":"Động từ khuyết thiếu CAN: luyện tập tiếp (Modal verb can: practice)","g":"modal"},{"id":"s2-poss2","b":"Starters 2","u":"Lesson 12 (tiếp)","t":"Tính từ sở hữu: luyện tập tiếp (Possessive adjectives: practice)","g":"possessive"},{"id":"s2-prep","b":"Starters 2","u":"Prepositions of place","t":"Giới từ chỉ vị trí (Prepositions of place)","g":"prepositions"},{"id":"s2-q2","b":"Starters 2","u":"Lesson 15 (tiếp)","t":"Câu hỏi Wh- : What, Who, Where, Why (Wh-questions: practice)","g":"questions"},{"id":"b200-u1","b":"200 trang","u":"Unit 1","t":"Bảng chữ cái và danh từ (The alphabet and nouns)","g":"nouns-articles"},{"id":"b200-u2","b":"200 trang","u":"Unit 2","t":"Danh từ số nhiều (Plural nouns)","g":"plural"},{"id":"b200-u3","b":"200 trang","u":"Unit 3","t":"Đại từ nhân xưng (Personal pronouns)","g":"pronouns"},{"id":"b200-u4","b":"200 trang","u":"Unit 4","t":"Động từ to be (Verb \"to be\")","g":"tobe"},{"id":"b200-u4b","b":"200 trang","u":"Unit 4 (dịch Việt - Anh)","t":"Dịch câu với động từ to be (Translate with to be)","g":"tobe"},{"id":"b200-u5","b":"200 trang","u":"Unit 5","t":"This, That, These, Those: luyện tập (practice)","g":"demonstratives"},{"id":"b200-u6","b":"200 trang","u":"Unit 6","t":"There is / There are: luyện tập (practice)","g":"there"},{"id":"b200-u6b","b":"200 trang","u":"Unit 6 (dịch Việt - Anh)","t":"Dịch câu với There is / There are (Translate with there is / there are)","g":"there"},{"id":"b200-u7","b":"200 trang","u":"Unit 7","t":"Tính từ sở hữu và sở hữu cách 's (Possessive adjectives and 's)","g":"possessive"},{"id":"b200-u7b","b":"200 trang","u":"Unit 7 (tiếp)","t":"Sở hữu cách 's và đại từ sở hữu ('s possessive and possessive pronouns)","g":"possessive"},{"id":"b200-u8","b":"200 trang","u":"Unit 8","t":"Giới từ chỉ nơi chốn (Prepositions of place)","g":"prepositions"},{"id":"b200-u10","b":"200 trang","u":"Unit 10","t":"Động từ khuyết thiếu can (Modal verb \"can\")","g":"modal"},{"id":"b200-u11","b":"200 trang","u":"Unit 11","t":"Thì hiện tại đơn (Present Simple)","g":"present-simple"},{"id":"b200-u11b","b":"200 trang","u":"Unit 11 (tiếp)","t":"Câu hỏi, phủ định và trạng từ chỉ tần suất (Questions and adverbs of frequency)","g":"present-simple"},{"id":"b200-u14","b":"200 trang","u":"Unit 14","t":"Câu hỏi Yes/No và câu hỏi Wh- (Questions)","g":"questions"},{"id":"b200-u15","b":"200 trang","u":"Unit 15","t":"Danh từ đếm được và không đếm được (Countable and uncountable nouns)","g":"countable"},{"id":"b200-u16","b":"200 trang","u":"Unit 16","t":"Đại từ tân ngữ (Object pronouns)","g":"pronouns"},{"id":"s1-l1","b":"Starters 1","u":"Lesson 1","t":"Bảng chữ cái và viết hoa (Alphabet and capital letters)","g":"letters"},{"id":"s1-l2","b":"Starters 1","u":"Lesson 2","t":"Mạo từ a và an (A and an)","g":"countable"},{"id":"s1-l2b","b":"Starters 1","u":"Lesson 2 (tiếp)","t":"Mạo từ a và an: luyện tập (A and an: practice)","g":"countable"},{"id":"s1-l5","b":"Starters 1","u":"Lesson 5-6","t":"Danh từ đếm được và không đếm được (Countable & Uncountable nouns)","g":"countable"},{"id":"s1-l5b","b":"Starters 1","u":"Lesson 5 (tiếp)","t":"Danh từ đếm được và không đếm được: luyện tập (Countable & Uncountable: practice)","g":"countable"},{"id":"s1-l3","b":"Starters 1","u":"Lesson 3","t":"Số đếm từ 1 đến 100 (Numbers 1 to 100)","g":"numbers"},{"id":"s1-l3b","b":"Starters 1","u":"Lesson 3 (tiếp)","t":"Số đếm: sửa chính tả, sắp chữ, điền số và tính toán (Numbers: practice)","g":"numbers"},{"id":"s1-l6","b":"Starters 1","u":"Lesson 6","t":"How much và How many (Bao nhiêu?)","g":"countable"},{"id":"b11-u12","b":"Sách 200 trang","u":"Unit 12","t":"Thì hiện tại tiếp diễn (Present Continuous)","g":"present-continuous"},{"id":"b11-u15","b":"Sách 200 trang","u":"Unit 15","t":"Câu hỏi Yes/No và câu hỏi Wh- (Questions)","g":"questions"},{"id":"b11-u8","b":"Sách 200 trang","u":"Unit 8","t":"Giới từ chỉ vị trí (Prepositions of place)","g":"prep-number"},{"id":"m1-l1","b":"Movers 1","u":"Lesson 1","t":"Số đếm - Số thứ tự (Cardinal & Ordinal Numbers)","g":"prep-number"}],"groups":{"present-simple":"Chuỗi bài: Thì hiện tại đơn","comparison":"Chuyên đề: So sánh hơn - So sánh nhất","past-simple":"Chuyên đề: Thì quá khứ đơn","possessive":"Chuyên đề: Sở hữu (tính từ sở hữu, sở hữu cách 's, Whose)","modal":"Chuyên đề: Động từ khuyết thiếu CAN","demonstratives":"Chuyên đề: This, That, These, Those","there":"Chuyên đề: There is / There are","have":"Chuyên đề: Động từ have / has","prepositions":"Chuyên đề: Giới từ chỉ vị trí (Prepositions of place)","nouns-articles":"Chuyên đề: Danh từ và mạo từ a/an (Nouns and a/an)","plural":"Chuyên đề: Danh từ số nhiều (Plural nouns)","tobe":"Chuyên đề: Động từ to be (am, is, are)","questions":"Chuyên đề: Câu hỏi (Yes/No và Wh-)","countable":"Chuyên đề: Danh từ đếm được, không đếm được và số nhiều","pronouns":"Chuyên đề: Đại từ (Pronouns)","letters":"Chuyên đề: Chữ hoa, chữ thường và bảng chữ cái","numbers":"Chuyên đề: Số đếm (Numbers)","present-continuous":"Chuyên đề: Thì hiện tại tiếp diễn","prep-number":"Chuyên đề: Giới từ chỉ vị trí và số đếm, số thứ tự"}};
+var KHOI = ['Khối 1','Khối 2','Khối 3','Khối 4','Khối 5'];
+var pass = '';
+var DATA = null;          // {taiKhoan:[], giao:{}}
+var giaoKhoi = 'Khối 1';
+var picked = {};         // unitId -> true
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function norm(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d'); }
+function setMsg(el, text, ok){ el.textContent = text || ''; el.className = 'msg ' + (ok ? 'ok' : 'err'); }
+
+function toQuery(p){
+  return Object.keys(p).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(p[k]==null?'':p[k]); }).join('&');
+}
+/* goi truc tiep (fetch) truoc; neu bi chan thi dung the script (JSONP) */
+function jsonp(params){
+  if(window.__fake) return new Promise(function(res){ setTimeout(function(){ res(window.__fake(params)); }, 250); });
+  var base = window.WEBAPP_URL;
+  var url = base + (base.indexOf('?') >= 0 ? '&' : '?') + toQuery(params);
+  return fetch(url).then(function(r){
+    if(!r.ok) throw new Error('http ' + r.status);
+    return r.json();
+  }).catch(function(e1){
+    return jsonpScript(params).catch(function(e2){
+      var err = new Error('fetch: ' + (e1 && e1.message) + ' | script: ' + (e2 && e2.message));
+      window.__netErrDetail = err.message;
+      throw err;
+    });
+  });
+}
+function jsonpScript(params){
+  if(window.__fake) return new Promise(function(res){ setTimeout(function(){ res(window.__fake(params)); }, 250); });
+  return new Promise(function(resolve, reject){
+    if(!WEBAPP_URL){ reject(new Error('nourl')); return; }
+    var name = 'hdadm_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    var sc = document.createElement('script');
+    var timer = setTimeout(function(){ finish(); reject(new Error('timeout')); }, 25000);
+    function finish(){
+      clearTimeout(timer);
+      try{ delete window[name]; }catch(e){ window[name] = undefined; }
+      if(sc.parentNode) sc.parentNode.removeChild(sc);
+    }
+    window[name] = function(d){ finish(); resolve(d); };
+    sc.onerror = function(){ finish(); reject(new Error('network')); };
+    var all = {};
+    Object.keys(params).forEach(function(k){ all[k] = params[k]; });
+    all.cb = name;
+    sc.src = WEBAPP_URL + (WEBAPP_URL.indexOf('?') >= 0 ? '&' : '?') + toQuery(all);
+    document.head.appendChild(sc);
+  });
+}
+function call(params){ params.pass = pass; return jsonp(params); }
+function netErr(){ var m = WEBAPP_URL.match(/\/s\/([^\/]+)\/exec/); return 'Không kết nối được máy chủ (mã máy chủ trang đang dùng: ' + (m ? m[1].slice(-6) : 'trống') + '; chi tiết: ' + (window.__netErrDetail || 'không có') + '). Thầy thử lại sau nhé.'; }
+
+/* ---------- mo khoa ---------- */
+function enter(){
+  $('gate').classList.add('hide');
+  $('panel').classList.remove('hide');
+  loadList();
+}
+function tryPass(p, fromStore){
+  return jsonp({ hd:'adm_kiemtra', pass:p }).then(function(d){
+    if(d && d.ok){
+      pass = p;
+      try{ sessionStorage.setItem('hd_adm', p); }catch(e){}
+      enter();
+    } else {
+      if(!fromStore) setMsg($('gateMsg'), 'Sai mật khẩu quản lý.', false);
+      try{ sessionStorage.removeItem('hd_adm'); }catch(e){}
+    }
+  }).catch(function(){
+    setMsg($('gateMsg'), netErr(), false);
+  });
+}
+$('btnGate').onclick = function(){
+  var p = $('admPass').value.trim();
+  if(!p){ setMsg($('gateMsg'), 'Thầy nhập mật khẩu nhé.', false); return; }
+  setMsg($('gateMsg'), 'Đang kiểm tra...', true);
+  tryPass(p, false);
+};
+$('admPass').addEventListener('keydown', function(e){ if(e.key==='Enter') $('btnGate').click(); });
+if(!WEBAPP_URL){ setMsg($('gateMsg'), 'Trang này chưa được gắn địa chỉ máy chủ. Báo Claude để sửa.', false); }
+else {
+  var saved = '';
+  try{ saved = sessionStorage.getItem('hd_adm') || ''; }catch(e){}
+  if(saved){ setMsg($('gateMsg'), 'Đang kiểm tra...', true); tryPass(saved, true); }
+}
+
+/* ---------- tab ---------- */
+$('tabAcc').onclick = function(){ showTab('acc'); };
+$('tabGiao').onclick = function(){ showTab('giao'); };
+function showTab(t){
+  $('tabAcc').classList.toggle('on', t==='acc');
+  $('tabGiao').classList.toggle('on', t==='giao');
+  $('secAcc').classList.toggle('hide', t!=='acc');
+  $('secGiao').classList.toggle('hide', t!=='giao');
+}
+
+/* ---------- danh sach tai khoan ---------- */
+function loadList(){
+  setMsg($('listMsg'), 'Đang tải...', true);
+  return call({ hd:'adm_ds' }).then(function(d){
+    if(!d || !d.ok){ setMsg($('listMsg'), (d && d.loi) || 'Không tải được danh sách.', false); return; }
+    DATA = d;
+    setMsg($('listMsg'), '', true);
+    renderList();
+    renderKhoiBtns();
+    renderUnits();
+  }).catch(function(){ setMsg($('listMsg'), netErr(), false); });
+}
+$('btnReload').onclick = loadList;
+$('fKhoi').onchange = renderList;
+
+function renderList(){
+  if(!DATA) return;
+  var f = $('fKhoi').value;
+  var rows = DATA.taiKhoan.filter(function(t){ return !f || t.khoi === f; });
+  if(!rows.length){ $('listBody').innerHTML = '<tr><td colspan="6" class="note">Chưa có tài khoản nào.</td></tr>'; return; }
+  $('listBody').innerHTML = rows.map(function(t){
+    var on = t.trangThai === 'Hoạt động';
+    return '<tr>'
+      + '<td>'+esc(t.ten)+'</td>'
+      + '<td>'+esc(t.khoi)+'</td>'
+      + '<td class="mono">'+esc(t.user)+'</td>'
+      + '<td class="mono">'+esc(t.pass)+'</td>'
+      + '<td><span class="pill'+(on?'':' off')+'">'+(on?'Hoạt động':'Đang khoá')+'</span></td>'
+      + '<td><div class="row">'
+      +   '<button class="ghost small" data-act="mk" data-user="'+esc(t.user)+'">Đổi mật khẩu</button>'
+      +   '<button class="ghost small" data-act="khoa" data-mo="'+(on?'0':'1')+'" data-user="'+esc(t.user)+'">'+(on?'Khoá':'Mở khoá')+'</button>'
+      +   '<button class="danger small" data-act="xoa" data-user="'+esc(t.user)+'">Xoá</button>'
+      + '</div></td></tr>';
+  }).join('');
+  Array.prototype.forEach.call($('listBody').querySelectorAll('button'), function(b){
+    b.onclick = function(){ rowAction(b.getAttribute('data-act'), b.getAttribute('data-user'), b.getAttribute('data-mo')); };
+  });
+}
+
+function rowAction(act, user, mo){
+  var params = { hd: act==='mk' ? 'adm_mk' : act==='khoa' ? 'adm_khoa' : 'adm_xoa', user: user };
+  if(act==='xoa' && !confirm('Xoá tài khoản '+user+'? Điểm đã nộp vẫn còn trong Google Sheet.')) return;
+  if(act==='khoa') params.mo = mo;
+  setMsg($('listMsg'), 'Đang xử lý...', true);
+  call(params).then(function(d){
+    if(!d || !d.ok){ setMsg($('listMsg'), (d && d.loi) || 'Chưa làm được.', false); return; }
+    if(act==='mk') setMsg($('listMsg'), 'Mật khẩu mới của '+user+' là: '+d.pass+'. Thầy ghi lại ngay.', true);
+    else setMsg($('listMsg'), 'Đã cập nhật '+user+'.', true);
+    return loadList();
+  }).catch(function(){ setMsg($('listMsg'), netErr(), false); });
+}
+
+/* ---------- tao tai khoan ---------- */
+$('dsIn').addEventListener('input', function(){
+  var n = $('dsIn').value.split('\n').filter(function(x){ return x.trim(); }).length;
+  $('dsCount').textContent = n ? n + ' dòng' : '';
+});
+function parseLines(text){
+  var lines = text.split('\n').map(function(x){ return x.trim(); }).filter(Boolean);
+  var items = [], bad = [];
+  lines.forEach(function(line){
+    var m = line.match(/^(.+?)\s*[-–—,]\s*(?:Khối\s*)?([1-5])$/i);
+    if(!m) bad.push(line);
+    else items.push({ ten: m[1].trim().replace(/\s+/g,' '), khoi: 'Khối ' + m[2] });
+  });
+  return { items: items, bad: bad };
+}
+$('btnTao').onclick = function(){
+  var parsed = parseLines($('dsIn').value);
+  if(parsed.bad.length){ setMsg($('dsErr'), 'Các dòng chưa đúng mẫu, thầy sửa lại: ' + parsed.bad.join(' | '), false); return; }
+  if(!parsed.items.length){ setMsg($('dsErr'), 'Thầy dán danh sách vào ô trên nhé.', false); return; }
+  if(parsed.items.length > 60){ setMsg($('dsErr'), 'Mỗi lần tạo tối đa 60 em. Thầy chia thành nhiều lần.', false); return; }
+  $('btnTao').disabled = true;
+  setMsg($('dsErr'), 'Đang tạo tài khoản...', true);
+  call({ hd:'adm_tao', ds: JSON.stringify(parsed.items) }).then(function(d){
+    $('btnTao').disabled = false;
+    if(!d || !d.ok){ setMsg($('dsErr'), (d && d.loi) || 'Chưa tạo được.', false); return; }
+    var fails = d.ketQua.filter(function(r){ return !r.ok; });
+    setMsg($('dsErr'), fails.length ? fails.length + ' dòng không tạo được, xem bảng bên dưới.' : 'Đã tạo ' + d.ketQua.length + ' tài khoản.', !fails.length);
+    if(d.ketQua.some(function(r){ return r.ok; })) $('dsIn').value = '';
+    $('dsCount').textContent = '';
+    showKq(d.ketQua);
+    loadList();
+  }).catch(function(){ $('btnTao').disabled = false; setMsg($('dsErr'), netErr(), false); });
+};
+var lastKq = [];
+function showKq(res){
+  lastKq = res;
+  var rows = res.map(function(r){
+    if(!r.ok) return '<tr><td>'+esc(r.ten)+'</td><td colspan="3" style="color:#b42318">Không tạo được: '+esc(r.loi)+'</td></tr>';
+    return '<tr><td>'+esc(r.ten)+'</td><td>'+esc(r.khoi)+'</td><td class="mono">'+esc(r.user)+'</td><td class="mono">'+esc(r.pass)+'</td></tr>';
+  }).join('');
+  $('kqBody').innerHTML = '<p style="margin:0 0 8px;font-weight:700">Tài khoản học sinh · Dịch vụ gia sư và dạy kèm Hoa Dũng</p>'
+    + '<table><thead><tr><th>Họ và tên</th><th>Khối</th><th>Tên đăng nhập</th><th>Mật khẩu</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  $('kqCard').classList.remove('hide');
+}
+$('btnCopy').onclick = function(){
+  var text = lastKq.filter(function(r){ return r.ok; }).map(function(r){ return [r.ten, r.khoi, r.user, r.pass].join('\t'); }).join('\n');
+  if(!text) return;
+  try{ navigator.clipboard.writeText(text); setMsg($('dsErr'), 'Đã sao chép. Dán vào Google Sheet hoặc Word.', true); }
+  catch(e){ setMsg($('dsErr'), 'Không sao chép được tự động. Thầy chọn bảng và sao chép tay.', false); }
+};
+$('btnPrint').onclick = function(){ window.print(); };
+
+/* ---------- giao bai ---------- */
+function renderKhoiBtns(){
+  $('khoiBtns').innerHTML = KHOI.map(function(k){
+    var n = DATA && DATA.giao[k] ? DATA.giao[k].length : 0;
+    return '<button class="kbtn'+(k===giaoKhoi?' on':'')+'" data-k="'+k+'">'+k+' ('+n+' chủ đề)</button>';
+  }).join('');
+  Array.prototype.forEach.call($('khoiBtns').querySelectorAll('button'), function(b){
+    b.onclick = function(){ selectKhoi(b.getAttribute('data-k')); };
+  });
+}
+function selectKhoi(k){
+  giaoKhoi = k;
+  picked = {};
+  ((DATA && DATA.giao[k]) || []).forEach(function(id){ picked[id] = true; });
+  renderKhoiBtns();
+  renderUnits();
+  setMsg($('giaoMsg'), '', true);
+}
+function renderUnits(){
+  var q = norm($('qBai').value.trim());
+  var groups = {}, gorder = [];
+  INDEX.units.forEach(function(u){
+    var gk = u.g || '';
+    var gt = gk ? (INDEX.groups[gk] || gk) : 'Chủ đề khác';
+    var hay = norm([u.t, u.b, u.u, gt].join(' '));
+    if(q && hay.indexOf(q) < 0) return;
+    if(!groups[gt]){ groups[gt] = []; gorder.push(gt); }
+    groups[gt].push(u);
+  });
+  if(!gorder.length){ $('unitList').innerHTML = '<p class="note">Không có chủ đề phù hợp.</p>'; updateCount(); return; }
+  $('unitList').innerHTML = gorder.map(function(gt){
+    return '<div class="grp">'+esc(gt)+'</div>' + groups[gt].map(function(u){
+      var on = !!picked[u.id];
+      return '<label class="unit'+(on?' on':'')+'"><input type="checkbox" data-id="'+esc(u.id)+'"'+(on?' checked':'')+'>'
+        + '<div><div class="u1">'+esc(u.b)+' · '+esc(u.u)+'</div><div class="u2">'+esc(u.t)+'</div></div></label>';
+    }).join('');
+  }).join('');
+  Array.prototype.forEach.call($('unitList').querySelectorAll('input[type=checkbox]'), function(cb){
+    cb.onchange = function(){
+      var id = cb.getAttribute('data-id');
+      if(cb.checked) picked[id] = true; else delete picked[id];
+      cb.parentNode.classList.toggle('on', cb.checked);
+      updateCount();
+    };
+  });
+  updateCount();
+}
+function updateCount(){
+  var n = Object.keys(picked).length;
+  $('giaoCount').textContent = 'Đã chọn ' + n + ' chủ đề cho ' + giaoKhoi;
+}
+$('qBai').addEventListener('input', renderUnits);
+$('btnBoChon').onclick = function(){ picked = {}; renderUnits(); };
+$('btnLuuGiao').onclick = function(){
+  var ids = INDEX.units.map(function(u){ return u.id; }).filter(function(id){ return picked[id]; });
+  if(!ids.length && !confirm(giaoKhoi+' sẽ không còn bài nào. Thầy tiếp tục chứ?')) return;
+  $('btnLuuGiao').disabled = true;
+  setMsg($('giaoMsg'), 'Đang lưu...', true);
+  call({ hd:'adm_giao', khoi: giaoKhoi, bai: ids.join(',') }).then(function(d){
+    $('btnLuuGiao').disabled = false;
+    if(!d || !d.ok){ setMsg($('giaoMsg'), (d && d.loi) || 'Chưa lưu được.', false); return; }
+    setMsg($('giaoMsg'), 'Đã giao '+d.soBai+' chủ đề cho '+giaoKhoi+'. Học sinh khối này tải lại trang sẽ thấy.', true);
+    return loadList();
+  }).catch(function(){ $('btnLuuGiao').disabled = false; setMsg($('giaoMsg'), netErr(), false); });
+};
+</script>
+</body>
+</html>
